@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import './Login.css';
 import { Auth } from 'aws-amplify';
@@ -10,7 +9,6 @@ import { useFormFields } from '../libs/hooksLib'; // custom hook
 
 export default function Login() {
     const { userHasAuthenticated } = useAppContext();
-    const history = useHistory();
     const [isLoading, setIsLoading] = useState(false);
     const [fields, handleFieldChange] = useFormFields({
         email: '',
@@ -28,7 +26,6 @@ export default function Login() {
         try {
             await Auth.signIn(fields.email, fields.password);
             userHasAuthenticated(true);
-            history.push('/');
         } catch (e) {
             onError(e);
             setIsLoading(false);
